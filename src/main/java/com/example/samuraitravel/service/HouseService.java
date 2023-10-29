@@ -81,7 +81,7 @@ public class HouseService {
 
 //    画像ファイルを指定したファイルにコピーする
 
-    public  void  copyImageFile(MultipartFile imageFile, Path filePath) {
+    public void copyImageFile(MultipartFile imageFile, Path filePath) {
         try {
             Files.copy(imageFile.getInputStream(), filePath);
         } catch (IOException e) {

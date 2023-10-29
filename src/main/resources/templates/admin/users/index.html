@@ -48,7 +48,7 @@
                                 <td th:text="${user.getName()}"></td>
                                 <td th:text="${user.getFurigana()}"></td>
                                 <td th:text="${user.getEmail()}"></td>
-                                <td><a th:href="@{/admin/users/__${usr.getId()}__}">詳細</a></td>
+                                <td><a th:href="@{/admin/users/__${user.getId()}__}">詳細</a></td>
                             </tr>
                         </tbody>
                     </table>

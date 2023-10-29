@@ -1,10 +1,225 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="https://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+  <div th:replace="~{fragment :: meta}"></div>
+
+  <div th:replace="~{fragment :: styles}"></div>
+
+  <title>民宿一覧</title>
 </head>
 <body>
-$END$
+<div class="samuraitravel-wrapper">
+  <!-- ヘッダー -->
+  <div th:replace="~{fragment :: header}"></div>
+
+  <main>
+    <div class="container samuraitravel-container pb-5">
+      <div class="row justify-content-center">
+        <nav class="my-3" style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+          <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item"><a th:href="@{/}">ホーム</a></li>
+            <li class="breadcrumb-item active" aria-current="page">民宿一覧</li>
+          </ol>
+        </nav>
+
+        <div class="col-xl-3 col-lg-4 col-md-12">
+          <form method="get" th:action="@{/houses}" class="w-100 mb-3">
+            <div class="input-group">
+              <input type="text" class="form-control" name="keyword" th:value="${keyword}" placeholder="民宿名・目的地">
+              <button type="submit" class="btn text-white shadow-sm samuraitravel-btn">検索</button>
+            </div>
+          </form>
+
+          <div class="card mb-3">
+            <div class="card-header">
+              エリアから探す
+            </div>
+            <div class="card-body">
+              <form method="get" th:action="@{/houses}" class="w-100">
+                <div class="form-group mb-3">
+                  <select class="form-control form-select" name="area">
+                    <option value="" hidden>選択してください</option>
+                    <optgroup label="北海道">
+                      <option value="北海道" th:selected="${area == '北海道'}">北海道</option>
+                    </optgroup>
+                    <optgroup label="東北">
+                      <option value="青森県" th:selected="${area == '青森県'}">青森県</option>
+                      <option value="岩手県" th:selected="${area == '岩手県'}">岩手県</option>
+                      <option value="宮城県" th:selected="${area == '宮城県'}">宮城県</option>
+                      <option value="秋田県" th:selected="${area == '秋田県'}">秋田県</option>
+                      <option value="山形県" th:selected="${area == '山形県'}">山形県</option>
+                      <option value="福島県" th:selected="${area == '福島県'}">福島県</option>
+                    </optgroup>
+                    <optgroup label="北関東">
+                      <option value="茨城県" th:selected="${area == '茨城県'}">茨城県</option>
+                      <option value="栃木県" th:selected="${area == '栃木県'}">栃木県</option>
+                      <option value="群馬県" th:selected="${area == '群馬県'}">群馬県</option>
+                    </optgroup>
+                    <optgroup label="首都圏">
+                      <option value="埼玉県" th:selected="${area == '埼玉県'}">埼玉県</option>
+                      <option value="千葉県" th:selected="${area == '千葉県'}">千葉県</option>
+                      <option value="東京都" th:selected="${area == '東京都'}">東京都</option>
+                      <option value="神奈川県" th:selected="${area == '神奈川県'}">神奈川県</option>
+                    </optgroup>
+                    <optgroup label="甲信越">
+                      <option value="新潟県" th:selected="${area == '新潟県'}">新潟県</option>
+                      <option value="山梨県" th:selected="${area == '山梨県'}">山梨県</option>
+                      <option value="長野県" th:selected="${area == '長野県'}">長野県</option>
+                    </optgroup>
+                    <optgroup label="北陸">
+                      <option value="富山県" th:selected="${area == '富山県'}">富山県</option>
+                      <option value="石川県" th:selected="${area == '石川県'}">石川県</option>
+                      <option value="福井県" th:selected="${area == '福井県'}">福井県</option>
+                    </optgroup>
+                    <optgroup label="東海">
+                      <option value="岐阜県" th:selected="${area == '岐阜県'}">岐阜県</option>
+                      <option value="静岡県" th:selected="${area == '静岡県'}">静岡県</option>
+                      <option value="愛知県" th:selected="${area == '愛知県'}">愛知県</option>
+                      <option value="三重県" th:selected="${area == '三重県'}">三重県</option>
+                    </optgroup>
+                    <optgroup label="近畿">
+                      <option value="滋賀県" th:selected="${area == '滋賀県'}">滋賀県</option>
+                      <option value="京都府" th:selected="${area == '京都府'}">京都府</option>
+                      <option value="大阪府" th:selected="${area == '大阪府'}">大阪府</option>
+                      <option value="兵庫県" th:selected="${area == '兵庫県'}">兵庫県</option>
+                      <option value="奈良県" th:selected="${area == '奈良県'}">奈良県</option>
+                      <option value="和歌山県" th:selected="${area == '和歌山県'}">和歌山県</option>
+                    </optgroup>
+                    <optgroup label="山陽・山陰">
+                      <option value="鳥取県" th:selected="${area == '鳥取県'}">鳥取県</option>
+                      <option value="島根県" th:selected="${area == '島根県'}">島根県</option>
+                      <option value="岡山県" th:selected="${area == '岡山県'}">岡山県</option>
+                      <option value="広島県" th:selected="${area == '広島県'}">広島県</option>
+                      <option value="山口県" th:selected="${area == '山口県'}">山口県</option>
+                    </optgroup>
+                    <optgroup label="四国">
+                      <option value="徳島県" th:selected="${area == '徳島県'}">徳島県</option>
+                      <option value="香川県" th:selected="${area == '香川県'}">香川県</option>
+                      <option value="愛媛県" th:selected="${area == '愛媛県'}">愛媛県</option>
+                      <option value="高知県" th:selected="${area == '高知県'}">高知県</option>
+                    </optgroup>
+                    <optgroup label="九州">
+                      <option value="福岡県" th:selected="${area == '福岡県'}">福岡県</option>
+                      <option value="佐賀県" th:selected="${area == '佐賀県'}">佐賀県</option>
+                      <option value="長崎県" th:selected="${area == '長崎県'}">長崎県</option>
+                      <option value="熊本県" th:selected="${area == '熊本県'}">熊本県</option>
+                      <option value="大分県" th:selected="${area == '大分県'}">大分県</option>
+                      <option value="宮崎県" th:selected="${area == '宮崎県'}">宮崎県</option>
+                      <option value="鹿児島県" th:selected="${area == '鹿児島県'}">鹿児島県</option>
+                    </optgroup>
+                    <optgroup label="沖縄">
+                      <option value="沖縄県" th:selected="${area == '沖縄県'}">沖縄県</option>
+                    </optgroup>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <button type="submit" class="btn text-white shadow-sm w-100 samuraitravel-btn">検索</button>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <div class="card mb-3">
+            <div class="card-header">
+              1泊あたりの予算から探す
+            </div>
+            <div class="card-body">
+              <form method="get" th:action="@{/houses}" class="w-100">
+                <div class="form-group mb-3">
+                  <select class="form-control form-select" name="price">
+                    <option value="" hidden>選択してください</option>
+                    <option value="6000" th:selected="${price == 6000}">6,000円以内</option>
+                    <option value="7000" th:selected="${price == 7000}">7,000円以内</option>
+                    <option value="8000" th:selected="${price == 8000}">8,000円以内</option>
+                    <option value="9000" th:selected="${price == 9000}">9,000円以内</option>
+                    <option value="10000" th:selected="${price == 10000}">10,000円以内</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <button type="submit" class="btn text-white shadow-sm w-100 samuraitravel-btn">検索</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="d-flex justify-content-between flex-wrap">
+            <p th:if="${housePage.getTotalPages() > 1}" class="fs-5 mb-3" th:text="${'検索結果：' + housePage.getTotalElements() + '件' + '（' + (housePage.getNumber() + 1) + ' / ' + housePage.getTotalPages() + ' ページ）'}"></p>
+            <p th:unless="${housePage.getTotalPages() > 1}" class="fs-5 mb-3" th:text="${'検索結果：' + housePage.getTotalElements() + '件'}"></p>
+
+            <form method="get" th:action="@{/houses}" class="mb-3 samuraitravel-sort-box">
+              <input th:if="${keyword}" type="hidden" name="keyword" th:value="${keyword}">
+              <input th:if="${area}" type="hidden" name="area" th:value="${area}">
+              <input th:if="${price}" type="hidden" name="price" th:value="${price}">
+              <select class="form-select form-select-sm" name="order" onChange="this.form.submit();">
+                <option value="createdAtDesc" th:selected="${order == 'createdAtDesc' || order == null}">新着順</option>
+                <option value="priceAsc" th:selected="${order == 'priceAsc'}">宿泊料金が安い順</option>
+              </select>
+            </form>
+          </div>
+
+          <div class="mb-3" th:each="house : ${housePage}">
+            <a th:href="@{/houses/__${house.getId()}__}" class="link-dark samuraitravel-card-link">
+              <div class="card h-100">
+                <div class="row g-0">
+                  <div class="col-md-4">
+                    <img th:if="${house.getImageName()}" th:src="@{/storage/__${house.getImageName()}__}" class="card-img-top samuraitravel-horizontal-card-image" alt="店舗画像">
+                    <img th:unless="${house.getImageName()}" th:src="@{/images/noImage.png}" class="card-img-top samuraitravel-horizontal-card-image" alt="NO IMAGE">
+                  </div>
+                  <div class="col-md-8">
+                    <div class="card-body">
+                      <h3 class="card-title mb-3" th:text="${house.getName()}"></h3>
+
+                      <hr class="mb-3">
+
+                      <p class="card-text mb-2">
+                        <span th:text="${house.getDescription()}"></span>
+                      </p>
+
+                      <p class="card-text mb-2">
+                        <small class="text-muted" th:text="${'〒' + house.getPostalCode()}"></small>
+                        <small class="text-muted" th:text="${house.getAddress()}"></small>
+                      </p>
+
+                      <p class="card-text">
+                        <span th:text="${#numbers.formatInteger(house.getPrice(), 1, 'COMMA') + '円 / 泊'}"></span>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </a>
+          </div>
+
+          <!-- ページネーション -->
+          <div th:if="${housePage.getTotalPages() > 1}" class="d-flex justify-content-center">
+            <nav aria-label="民宿一覧ページ">
+              <ul class="pagination">
+                <li class="page-item">
+                  <span th:if="${housePage.isFirst()}" class="page-link disabled">前</span>
+                  <a th:unless="${housePage.isFirst()}" th:href="@{/houses(page = ${housePage.getNumber() - 1}, keyword = ${keyword}, area = ${area}, price = ${price}, order = ${order})}" class="page-link samuraitravel-page-link">前</a>
+                </li>
+                <li th:each="i : ${#numbers.sequence(0, housePage.getTotalPages() - 1)}" class="page-item">
+                  <span th:if="${i == housePage.getNumber()}" class="page-link active samuraitravel-active" th:text="${i + 1}"></span>
+                  <a th:unless="${i == housePage.getNumber()}" th:href="@{/houses(page = ${i}, keyword = ${keyword}, area = ${area}, price = ${price}, order = ${order})}" class="page-link samuraitravel-page-link" th:text="${i + 1}"></a>
+                </li>
+                <li class="page-item">
+                  <span th:if="${housePage.isLast()}" class="page-link disabled">次</span>
+                  <a th:unless="${housePage.isLast()}" th:href="@{/houses(page = ${housePage.getNumber() + 1}, keyword = ${keyword}, area = ${area}, price = ${price}, order = ${order})}" class="page-link samuraitravel-page-link">次</a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- フッター -->
+  <div th:replace="~{fragment :: footer}"></div>
+</div>
+
+<div th:replace="~{fragment :: scripts}"></div>
 </body>
 </html>

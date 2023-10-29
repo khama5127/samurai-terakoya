@@ -29,7 +29,7 @@ public class AdminHouseController {
     }
 
     @GetMapping
-    public String index(Model model, @PageableDefault(page = 0, size = 10, sort = "id", direction = Direction.ASC) Pageable pageable,@RequestParam(name = "keyword", required = false) String keyword) {
+    public String index(Model model, @PageableDefault(page = 0, size = 10, sort = "id", direction = Direction.ASC) Pageable pageable, @RequestParam(name = "keyword", required = false) String keyword) {
         Page<House> housePage;
 
         if (keyword != null && !keyword.isEmpty()) {
@@ -38,7 +38,7 @@ public class AdminHouseController {
             housePage = houseRepository.findAll(pageable);
         }
 
-        model.addAttribute("housePage",housePage);
+        model.addAttribute("housePage", housePage);
         model.addAttribute("keyword", keyword);
 
         return "admin/houses/index";
@@ -78,13 +78,13 @@ public class AdminHouseController {
         HouseEditForm houseEditForm = new HouseEditForm(house.getId(),house.getName(),null,house.getDescription(),house.getPrice(),house.getCapacity(),house.getPostalCode(),house.getAddress(),house.getPhoneNumber());
 
         model.addAttribute("imageName", imageName);
-        model.addAttribute("houseEditForm",houseEditForm);
+        model.addAttribute("houseEditForm", houseEditForm);
 
         return "admin/houses/edit";
     }
 
     @PostMapping("/{id}/update")
-    public String update(@ModelAttribute @Validated HouseEditForm houseEditForm,BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+    public String update(@ModelAttribute @Validated HouseEditForm houseEditForm, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             return "admin/houses/edit";
         }

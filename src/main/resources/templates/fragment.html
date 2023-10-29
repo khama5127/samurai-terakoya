@@ -55,7 +55,7 @@
 
                                 <div class="dropdown-divider"></div>
 
-                                <a class="dropdown-item samuraitravel-dropdown-item" th:href="@{/logout}" onclick="event.preventDefault(); document.gegElementById('logout-form').submit();">
+                                <a class="dropdown-item samuraitravel-dropdown-item" th:href="@{/logout}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                     ログアウト
                                 </a>
                                 <form class="d-none" id="logout-form" th:action="@{/logout}" method="post"></form>
