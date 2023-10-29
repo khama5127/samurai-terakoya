@@ -32,7 +32,7 @@ public class HouseService {
             String imageName =  imageFile.getOriginalFilename();
             String hashedImageName = generateNewFileName(imageName);
             Path filePath = Paths.get("src/main/resources/static/storage/" + hashedImageName);
-            copyImageFile(imageFile,filePath);
+            copyImageFile(imageFile, filePath);
             house.setImageName(hashedImageName);
         }
 
@@ -68,9 +68,10 @@ public class HouseService {
         house.setAddress(houseEditForm.getAddress());
         house.setPhoneNumber(houseEditForm.getPhoneNumber());
 
+        houseRepository.save(house);
     }
 //    UUIDを使って生成したファイル名を返す
-    public  String generateNewFileName(String fileName) {
+    public String generateNewFileName(String fileName) {
         String[] fileNames = fileName.split("\\.");
         for (int i = 0; i < fileNames.length - 1; i++) {
             fileNames[i] = UUID.randomUUID().toString();
