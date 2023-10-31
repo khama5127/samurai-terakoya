@@ -1,5 +1,6 @@
 package com.example.samuraitravel.controller;
 
+import com.example.samuraitravel.form.ReservationInputForm;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
@@ -77,6 +78,7 @@ public class HouseController {
         House house = houseRepository.getReferenceById(id);
 
         model.addAttribute("house", house);
+        model.addAttribute("reservationInputForm", new ReservationInputForm());
 
         return "houses/show";
     }

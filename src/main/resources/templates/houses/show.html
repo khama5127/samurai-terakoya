@@ -5,6 +5,9 @@
 
   <div th:replace="~{fragment :: styles}"></div>
 
+  <!-- Flatpickr -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
   <title>民宿詳細</title>
 </head>
 <body>
@@ -117,6 +120,30 @@
                   </div>
                 </div>
               </div>
+
+              <div sec:authorize="isAuthenticated()" class="col-lg-4 px-0 ps-lg-4 mb-4">
+                <div class="card">
+                  <div class="card-body">
+                    <form method="get" th:action="@{/houses/__${house.getId()}__/reservations/input}" th:object="${reservationInputForm}">
+                      <div class="form-group mb-2">
+                        <label for="fromCheckinDateToCheckoutDate" class="col-form-label text-md-left fw-bold">チェックイン・チェックアウト</label>
+                        <div th:if="${#fields.hasErrors('fromCheckinDateToCheckoutDate')}" class="text-danger small mb-2" th:errors="*{fromCheckinDateToCheckoutDate}"></div>
+                        <input type="text" class="form-control" th:field="*{fromCheckinDateToCheckoutDate}">
+                      </div>
+
+                      <div class="form-group mb-4">
+                        <label for="numberOfPeople" class="col-form-label text-md-left fw-bold">宿泊人数</label>
+                        <div th:if="${#fields.hasErrors('numberOfPeople')}" class="text-danger small mb-2" th:errors="*{numberOfPeople}"></div>
+                        <input type="number" class="form-control" th:field="*{numberOfPeople}" min="1">
+                      </div>
+
+                      <div class="form-group">
+                        <button type="submit" class="btn text-white shadow-sm w-100 samuraitravel-btn">予約する</button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -128,5 +155,10 @@
 </div>
 <!--Bootstrap-->
 <div th:replace="~{fragment :: scripts}"></div>
+
+<!-- Flatpickr -->
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/ja.js"></script>
+<script th:src="@{/js/flatpickr.js}"></script>
 </body>
 </html>
