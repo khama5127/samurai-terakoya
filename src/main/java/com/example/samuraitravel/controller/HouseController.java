@@ -42,21 +42,18 @@ public class HouseController {
                 housePage = houseRepository.findByNameLikeOrAddressLikeOrderByCreatedAtDesc("%" + keyword + "%", "%" + keyword + "%", pageable);
             }
         } else if (area != null && !area.isEmpty()) {
-            //housePage = houseRepository.findByAddressLike("%" + area + "%", pageable);
             if (order != null && order.equals("priceAsc")) {
                 housePage = houseRepository.findByAddressLikeOrderByPriceAsc("%" + area + "%", pageable);
             } else {
                 housePage = houseRepository.findByAddressLikeOrderByCreatedAtDesc("%" + area + "%", pageable);
             }
         } else if (price != null) {
-            //housePage = houseRepository.findByPriceLessThanEqual(price, pageable);
             if (order != null && order.equals("priceAsc")) {
                 housePage = houseRepository.findByPriceLessThanEqualOrderByPriceAsc(price, pageable);
             } else {
                 housePage = houseRepository.findByPriceLessThanEqualOrderByCreatedAtDesc(price, pageable);
             }
         } else {
-            //housePage = houseRepository.findAll(pageable);
             if (order != null && order.equals("priceAsc")) {
                 housePage = houseRepository.findAllByOrderByPriceAsc(pageable);
             } else {
